@@ -1,11 +1,11 @@
-rootProject.name = "springboot-template"
+rootProject.name = "spring-labs"
 
 include(
-    "subp-domain",
-    "subp-jdbc",
-    "subp-jpa",
-    "subp-common",
-    "subp-server"
+    "labs-auth",
+    "labs-domain",
+    "labs-jpa",
+    "labs-common",
+    "labs-server"
 )
 
 enableFeaturePreview("VERSION_CATALOGS")
