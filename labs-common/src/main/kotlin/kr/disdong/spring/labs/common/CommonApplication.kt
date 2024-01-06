@@ -1,6 +1,6 @@
-package kr.disdong.spring.labs.auth
+package kr.disdong.spring.labs.common
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 
 @SpringBootApplication
-class AuthApplication
+class CommonApplication

@@ -1,6 +1,7 @@
 package kr.disdong.spring.labs.jpa.module.user.model.impl
 
 import kr.disdong.spring.labs.domain.module.user.model.User
+import kr.disdong.spring.labs.domain.module.user.model.UserOauth
 import kr.disdong.spring.labs.jpa.module.user.model.UserEntity
 
 class UserImpl(
@@ -13,6 +14,8 @@ class UserImpl(
         get() = entity.name
     override val phone: String
         get() = entity.phone
+    override val userOauth: UserOauth
+        get() = entity.userOauth.toUserOauth()
 
     override fun updateName(name: String) {
         entity.name = name

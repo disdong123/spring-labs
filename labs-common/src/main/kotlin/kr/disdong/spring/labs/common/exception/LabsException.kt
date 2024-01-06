@@ -6,7 +6,7 @@ import java.lang.RuntimeException
  *
  * @property message
  */
-abstract class TemplateException(
+abstract class LabsException(
     override val message: String,
 ) : RuntimeException(message) {
 

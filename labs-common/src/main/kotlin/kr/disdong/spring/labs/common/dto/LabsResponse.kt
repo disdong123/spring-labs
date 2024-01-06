@@ -1,18 +1,18 @@
 package kr.disdong.spring.labs.common.dto
 
-import kr.disdong.spring.labs.common.exception.TemplateException
+import kr.disdong.spring.labs.common.exception.LabsException
 import org.springframework.http.HttpStatus
 
-class TemplateResponse<T>(
+class LabsResponse<T>(
     val code: Int,
     val data: T? = null,
     val message: String? = null
 ) {
     companion object {
         fun <T> of(
-            exception: TemplateException
-        ): TemplateResponse<T> {
-            return TemplateResponse(
+            exception: LabsException
+        ): LabsResponse<T> {
+            return LabsResponse(
                 code = exception.getCode(),
                 message = exception.message,
             )
@@ -20,8 +20,8 @@ class TemplateResponse<T>(
 
         fun <T> of(
             content: T? = null,
-        ): TemplateResponse<T> {
-            return TemplateResponse(
+        ): LabsResponse<T> {
+            return LabsResponse(
                 code = HttpStatus.OK.value(),
                 data = content
             )
@@ -30,8 +30,8 @@ class TemplateResponse<T>(
         fun <T> of(
             code: HttpStatus,
             content: T? = null,
-        ): TemplateResponse<T> {
-            return TemplateResponse(
+        ): LabsResponse<T> {
+            return LabsResponse(
                 code = code.value(),
                 data = content
             )
