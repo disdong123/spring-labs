@@ -1,0 +1,16 @@
+spring.config.activate.on-profile: test, default
+server:
+  servlet:
+    context-path: /api
+  port: 8082
+
+spring:
+  config:
+    import:
+      - jpa-mysql-test.yaml
+      - auth.yaml
+      - common-test.yaml
+
+springdoc:
+  swagger-ui:
+    path: /docs

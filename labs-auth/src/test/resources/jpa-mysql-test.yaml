@@ -1,0 +1,25 @@
+spring.config.activate.on-profile: test, default
+
+spring:
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:testdb;MODE=MYSQL
+    username: sa
+    password:
+  jpa:
+    defer-datasource-initialization: true
+    database: h2
+    database-platform: org.hibernate.dialect.MySQLDialect
+    generate-ddl: true
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        auto_quote_keyword: true
+        globally_quoted_identifiers: true
+
+logging:
+  level:
+    org.springframework.jdbc.datasource: DEBUG
+    com.zaxxer.hikari.HikariConfig: DEBUG
+    org.hibernate.type: debug

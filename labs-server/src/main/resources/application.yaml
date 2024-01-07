@@ -1,11 +1,14 @@
 server:
   servlet:
     context-path: /api
+  port: 8082
 
 spring:
   config:
     import:
       - jpa-mysql.yaml
+      - auth.yaml
+      - common.yaml
 
 springdoc:
   swagger-ui:

@@ -8,9 +8,10 @@ import kr.disdong.spring.labs.jpa.module.user.model.UserOauthEntity
 class UserOauthImpl(
     private val entity: UserOauthEntity,
 ) : UserOauth {
+
     override val id: String
         get() = entity.id
-    override val nickname: String
+    override val nickname: String?
         get() = entity.nickname
     override val type: OauthType
         get() = entity.type
@@ -18,4 +19,9 @@ class UserOauthImpl(
         get() = entity.accessToken
     override val refreshToken: Token?
         get() = entity.refreshToken
+
+    override fun setToken(accessToken: Token, refreshToken: Token) {
+        entity.accessToken = accessToken
+        entity.refreshToken = refreshToken
+    }
 }

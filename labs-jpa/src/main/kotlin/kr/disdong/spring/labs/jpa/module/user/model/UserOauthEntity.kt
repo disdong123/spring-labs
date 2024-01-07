@@ -6,8 +6,6 @@ import jakarta.persistence.Entity
 import jakarta.persistence.EnumType
 import jakarta.persistence.Enumerated
 import jakarta.persistence.Id
-import jakarta.persistence.JoinColumn
-import jakarta.persistence.OneToOne
 import kr.disdong.spring.labs.common.token.Token
 import kr.disdong.spring.labs.domain.module.user.model.OauthType
 import kr.disdong.spring.labs.domain.module.user.model.PlainUserOauth
@@ -25,17 +23,13 @@ class UserOauthEntity(
     @Id
     var id: String,
 
-    @OneToOne
-    @JoinColumn(name = "user_id")
-    var user: UserEntity? = null,
-
     @Comment("각 서비스에서 사용하는 nickname")
     @Column(
-        nullable = false,
+        nullable = true,
         unique = false,
         length = 200,
     )
-    var nickname: String,
+    var nickname: String?,
 
     @Comment("oauth 타입")
     @Enumerated(value = EnumType.STRING)

@@ -1,5 +1,6 @@
 package kr.disdong.spring.labs.jpa.module.user.model
 
+import jakarta.persistence.CascadeType
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.GeneratedValue
@@ -19,20 +20,20 @@ class UserEntity(
     val id: Long = 0,
 
     @Column(
-        nullable = false,
+        nullable = true,
         unique = false,
         length = 100,
     )
-    var name: String,
+    var name: String? = null,
 
     @Column(
-        nullable = false,
+        nullable = true,
         unique = false,
         length = 20,
     )
-    val phone: String,
+    val phone: String? = null,
 
-    @OneToOne
+    @OneToOne(cascade = [CascadeType.PERSIST])
     @JoinColumn(name = "oauth_id")
     var userOauth: UserOauthEntity,
 ) : BaseEntity() {
@@ -41,7 +42,7 @@ class UserEntity(
             return UserEntity(
                 name = user.name,
                 phone = user.phone,
-                userOauth = UserOauthEntity.of(user.userOauth),
+                userOauth = UserOauthEntity.of(user.plainUserOauth),
             )
         }
     }
