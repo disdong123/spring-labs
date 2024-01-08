@@ -6,6 +6,7 @@ dependencies {
     implementation(libs.spring.boot.starter.webflux)
 
     testImplementation("org.wiremock:wiremock:3.3.1")
+    testImplementation(libs.h2.database)
 }
 
 tasks.getByName("bootJar") {

@@ -37,7 +37,7 @@ out/
 .vscode/
 
 #
-**/auth.yaml
-**/common.yaml
+labs-auth/src/main/resources/auth.yaml
+labs-common/src/main/resources/common.yaml
 
 **/.jqwik-database
