@@ -2,6 +2,7 @@ rootProject.name = "spring-labs"
 
 include(
     "labs-auth",
+    "labs-cache",
     "labs-domain",
     "labs-jpa",
     "labs-common",
