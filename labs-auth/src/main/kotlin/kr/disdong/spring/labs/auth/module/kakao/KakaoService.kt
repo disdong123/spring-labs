@@ -1,6 +1,7 @@
 package kr.disdong.spring.labs.auth.module.kakao
 
 import kr.disdong.spring.labs.auth.common.exception.AuthorizationCodeAccessDeniedException
+import kr.disdong.spring.labs.auth.core.listener.login.dto.LoginEvent
 import kr.disdong.spring.labs.auth.module.kakao.dto.AccessTokenClaims
 import kr.disdong.spring.labs.auth.module.kakao.dto.LoginResponse
 import kr.disdong.spring.labs.auth.module.kakao.dto.OAuthCallbackResponse
@@ -14,6 +15,7 @@ import kr.disdong.spring.labs.domain.module.user.model.OauthType
 import kr.disdong.spring.labs.domain.module.user.model.impl.PlainUserImpl
 import kr.disdong.spring.labs.domain.module.user.model.impl.PlainUserOauthImpl
 import kr.disdong.spring.labs.domain.module.user.repository.UserRepository
+import org.springframework.context.ApplicationEventPublisher
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -22,6 +24,7 @@ class KakaoService(
     private val kakaoClient: KakaoClient,
     private val userRepository: UserRepository,
     private val tokenManager: TokenManager,
+    private val applicationEventPublisher: ApplicationEventPublisher,
 ) {
 
     private val logger = logger<KakaoService>()
@@ -35,16 +38,6 @@ class KakaoService(
     }
 
     /**
-     * 카카오로 부터 리다이렉트되면 유저가 가지고 있는 토큰을 모두 삭제합니다.
-     * @param id
-     */
-    @Transactional
-    fun logout(id: Long) {
-        val user = userRepository.findByUserId(id) ?: throw UserNotFoundException(id)
-        user.removeTokens()
-    }
-
-    /**
      *
      * @param oAuthCallbackResponse
      */
@@ -52,9 +45,6 @@ class KakaoService(
     fun login(oAuthCallbackResponse: OAuthCallbackResponse): LoginResponse {
         val response = getToken(oAuthCallbackResponse)
         val idToken = response.decodeIdToken()
-
-        logger.info("idToken: $idToken")
-
         var user = userRepository.findByOauthIdAndType(idToken.sub, OauthType.KAKAO)
         if (user == null) {
             val userOauthMetadata = PlainUserOauthImpl(
@@ -66,17 +56,23 @@ class KakaoService(
             user = userRepository.save(PlainUserImpl(plainUserOauth = userOauthMetadata))
         }
 
-        logger.info("user: $user")
-
         // 카카오에서 받은 access token 은 사용하지 않습니다.
         val accessToken = tokenManager.create("user", AccessTokenClaims(user.id), Millis.HOUR)
-        val refreshToken = response.refreshToken
+        user.setTokens(accessToken, response.refreshToken)
 
-        logger.info("token: ${accessToken.value} ${refreshToken.value}")
-
-        user.setTokens(accessToken, refreshToken)
+        applicationEventPublisher.publishEvent(LoginEvent(user.id, accessToken))
 
         return user.toLoginResponse(accessToken)
+    }
+
+    /**
+     * 카카오로 부터 리다이렉트되면 유저가 가지고 있는 토큰을 모두 삭제합니다.
+     * @param id
+     */
+    @Transactional
+    fun logout(id: Long) {
+        val user = userRepository.findByUserId(id) ?: throw UserNotFoundException(id)
+        user.removeTokens()
     }
 
     /**

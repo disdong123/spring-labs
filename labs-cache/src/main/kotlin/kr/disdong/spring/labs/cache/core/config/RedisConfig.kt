@@ -1,4 +1,4 @@
-package kr.disdong.spring.labs.cache.config
+package kr.disdong.spring.labs.cache.core.config
 
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.boot.autoconfigure.data.redis.RedisProperties

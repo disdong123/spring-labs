@@ -41,4 +41,4 @@ labs-auth/src/main/resources/auth.yaml
 labs-common/src/main/resources/common.yaml
 
 **/.jqwik-database
-./infra/mysql/data/**
+infra/mysql/data/**
