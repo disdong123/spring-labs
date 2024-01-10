@@ -2,17 +2,19 @@ package kr.disdong.spring.labs.auth.module.kakao
 
 import kr.disdong.spring.labs.auth.common.exception.AuthorizationCodeAccessDeniedException
 import kr.disdong.spring.labs.auth.core.listener.login.dto.LoginEvent
+import kr.disdong.spring.labs.auth.core.listener.signup.dto.PreSignupEvent
 import kr.disdong.spring.labs.auth.module.kakao.dto.AccessTokenClaims
 import kr.disdong.spring.labs.auth.module.kakao.dto.LoginResponse
 import kr.disdong.spring.labs.auth.module.kakao.dto.OAuthCallbackResponse
 import kr.disdong.spring.labs.auth.module.kakao.dto.TokenResponse
 import kr.disdong.spring.labs.auth.module.kakao.exception.UserNotFoundException
 import kr.disdong.spring.labs.auth.module.kakao.extension.toLoginResponse
+import kr.disdong.spring.labs.cache.module.user.PlainUserOauthCacheRepository
+import kr.disdong.spring.labs.common.generator.UuidGenerator
 import kr.disdong.spring.labs.common.logger.logger
 import kr.disdong.spring.labs.common.time.Millis
 import kr.disdong.spring.labs.common.token.TokenManager
 import kr.disdong.spring.labs.domain.module.user.model.OauthType
-import kr.disdong.spring.labs.domain.module.user.model.impl.PlainUserImpl
 import kr.disdong.spring.labs.domain.module.user.model.impl.PlainUserOauthImpl
 import kr.disdong.spring.labs.domain.module.user.repository.UserRepository
 import org.springframework.context.ApplicationEventPublisher
@@ -23,6 +25,7 @@ import org.springframework.transaction.annotation.Transactional
 class KakaoService(
     private val kakaoClient: KakaoClient,
     private val userRepository: UserRepository,
+    private val plainUserOauthCacheRepository: PlainUserOauthCacheRepository,
     private val tokenManager: TokenManager,
     private val applicationEventPublisher: ApplicationEventPublisher,
 ) {
@@ -45,21 +48,24 @@ class KakaoService(
     fun login(oAuthCallbackResponse: OAuthCallbackResponse): LoginResponse {
         val response = getToken(oAuthCallbackResponse)
         val idToken = response.decodeIdToken()
-        var user = userRepository.findByOauthIdAndType(idToken.sub, OauthType.KAKAO)
+        val user = userRepository.findByOauthIdAndType(idToken.sub, OauthType.KAKAO)
         if (user == null) {
-            val userOauthMetadata = PlainUserOauthImpl(
+            val userOauth = PlainUserOauthImpl(
                 id = idToken.sub,
                 nickname = idToken.nickname,
                 type = OauthType.KAKAO,
             )
 
-            user = userRepository.save(PlainUserImpl(plainUserOauth = userOauthMetadata))
+            val key = UuidGenerator.generate()
+            applicationEventPublisher.publishEvent(PreSignupEvent(key, userOauth))
+
+            return LoginResponse.signupPhase(key)
         }
 
         // 카카오에서 받은 access token 은 사용하지 않습니다.
         val accessToken = tokenManager.create("user", AccessTokenClaims(user.id), Millis.HOUR)
-        user.setTokens(accessToken, response.refreshToken)
 
+        user.setTokens(accessToken, response.refreshToken)
         applicationEventPublisher.publishEvent(LoginEvent(user.id, accessToken))
 
         return user.toLoginResponse(accessToken)

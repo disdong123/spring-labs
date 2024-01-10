@@ -22,6 +22,10 @@ class KakaoController(
 
     private val logger = logger<KakaoController>()
 
+    @GetMapping("/signup")
+    fun signup() {
+    }
+
     /**
      * kakao 로그인 페이지로 리다이렉트합니다.
      * 서버 테스트용으로, 클라이언트에서 할 수도 있습니다.

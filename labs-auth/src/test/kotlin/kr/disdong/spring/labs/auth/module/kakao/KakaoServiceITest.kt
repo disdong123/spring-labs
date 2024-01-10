@@ -5,6 +5,7 @@ import kr.disdong.spring.labs.auth.common.exception.AuthorizationCodeAccessDenie
 import kr.disdong.spring.labs.auth.module.kakao.dto.OAuthCallbackResponse
 import kr.disdong.spring.labs.auth.module.kakao.dto.TokenResponse
 import kr.disdong.spring.labs.common.token.Token
+import kr.disdong.spring.labs.domain.module.user.model.Address
 import kr.disdong.spring.labs.domain.module.user.model.OauthType
 import kr.disdong.spring.labs.domain.module.user.model.impl.PlainUserImpl
 import kr.disdong.spring.labs.domain.module.user.model.impl.PlainUserOauthImpl
@@ -48,33 +49,38 @@ internal class KakaoServiceITest : AbstractSpringBootTest() {
             assertThrows(AuthorizationCodeAccessDeniedException::class.java) {
                 sut.login(OAuthCallbackResponse(code = Token(""), error = "access_denied"))
             }
-
-            userRepository.save(PlainUserImpl(plainUserOauth = PlainUserOauthImpl("", "", OauthType.KAKAO)))
         }
 
         @Test
-        fun `유저가 없는 경우 유저 정보를 생성하고 로그인을 시킨다`() {
+        fun `유저가 없는 경우 회원가입을 위해 oauth 정보를 캐싱하고 키를 반환한다`() {
             val response = sut.login(OAuthCallbackResponse(code = Token("")))
 
-            assertNotNull(response.accessToken)
-            assertNull(response.name)
-            assertNull(response.phone)
-            assertEquals(response.oauthType, OauthType.KAKAO)
-            assertNotNull(userRepository.findByUserId(response.id))
+            assertNotNull(response.signupPhase)
+            assertNull(response.loginPhase)
         }
 
         @Test
         fun `이미 유저가 있으면 토큰을 발급하고 로그인을 시킨다`() {
-            userRepository.save(PlainUserImpl(plainUserOauth = PlainUserOauthImpl("1", type = OauthType.KAKAO, nickname = "cola")))
-
+            `유저 정보 저장`()
             val response = sut.login(OAuthCallbackResponse(code = Token("")))
 
-            assertNotNull(response.accessToken)
-            assertNull(response.name)
-            assertNull(response.phone)
-            assertEquals(response.oauthType, OauthType.KAKAO)
-            assertNotNull(userRepository.findByUserId(response.id))
+            assertNull(response.signupPhase)
+            assertNotNull(response.loginPhase!!.accessToken)
+            assertNotNull(response.loginPhase!!.name)
+            assertNotNull(response.loginPhase!!.phone)
+            assertEquals(response.loginPhase!!.oauthType, OauthType.KAKAO)
         }
+    }
+
+    private fun `유저 정보 저장`() {
+        userRepository.save(
+            PlainUserImpl(
+                plainUserOauth = PlainUserOauthImpl("117847912875913905493", type = OauthType.KAKAO, nickname = "cola"),
+                name = "aa",
+                phone = "01012345678",
+                address = Address("서울시 강남구", "123-456"),
+            )
+        )
     }
 
     private fun `인가 코드로 조회한 결과 값`(): TokenResponse {

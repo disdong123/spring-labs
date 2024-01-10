@@ -10,6 +10,7 @@ spring:
       - jpa-mysql.yaml
       - auth.yaml
       - common.yaml
+      - cache.yaml
 
 springdoc:
   swagger-ui:

@@ -1,7 +1,5 @@
 spring:
-  redis:
-    host: localhost
-    port: 6380
-
----
-spring.config.activate.on-profile: dev
+  data:
+    redis:
+      host: localhost
+      port: 6380

@@ -20,18 +20,32 @@ class UserEntity(
     val id: Long = 0,
 
     @Column(
-        nullable = true,
+        nullable = false,
         unique = false,
         length = 100,
     )
-    var name: String? = null,
+    var name: String,
 
     @Column(
-        nullable = true,
+        nullable = false,
         unique = false,
         length = 20,
     )
-    val phone: String? = null,
+    val phone: String,
+
+    @Column(
+        nullable = false,
+        unique = false,
+        length = 60,
+    )
+    val address: String,
+
+    @Column(
+        nullable = false,
+        unique = false,
+        length = 60,
+    )
+    val addressDetail: String,
 
     @OneToOne(cascade = [CascadeType.PERSIST])
     @JoinColumn(name = "oauth_id")
@@ -42,6 +56,8 @@ class UserEntity(
             return UserEntity(
                 name = user.name,
                 phone = user.phone,
+                address = user.address.address,
+                addressDetail = user.address.addressDetail,
                 userOauth = UserOauthEntity.of(user.plainUserOauth),
             )
         }

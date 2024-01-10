@@ -18,6 +18,12 @@ interface User : UserData {
 
 interface UserData {
     val id: Long
-    var name: String?
-    val phone: String?
+    var name: String
+    val phone: String
+    val address: Address
 }
+
+class Address(
+    val address: String,
+    val addressDetail: String,
+)

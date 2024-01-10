@@ -6,7 +6,8 @@ include(
     "labs-domain",
     "labs-jpa",
     "labs-common",
-    "labs-server"
+    "labs-server",
+    "internal:notification-api"
 )
 
 enableFeaturePreview("VERSION_CATALOGS")

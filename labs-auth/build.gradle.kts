@@ -6,4 +6,5 @@ dependencies {
     implementation("com.google.code.gson:gson:2.10.1")
 
     testImplementation(libs.h2.database)
+    testImplementation("it.ozimov:embedded-redis:0.7.2")
 }
