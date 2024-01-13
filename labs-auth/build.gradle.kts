@@ -1,10 +1,10 @@
 dependencies {
-    api(project(":labs-common"))
-    api(project(":labs-cache"))
-    api(project(":labs-jpa"))
-
-    implementation("com.google.code.gson:gson:2.10.1")
+    implementation(project(":labs-common"))
+    implementation(project(":labs-cache"))
+    implementation(project(":labs-domain"))
+    implementation(project(":labs-jpa"))
+    implementation(libs.gson)
 
     testImplementation(libs.h2.database)
-    testImplementation("it.ozimov:embedded-redis:0.7.2")
+    testImplementation(libs.embedded.redis)
 }

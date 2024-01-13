@@ -36,8 +36,8 @@ subprojects {
         implementation(libs.springdoc.openapi.starter.webmvc.ui)
 
         testImplementation(libs.spring.boot.starter.test)
-        testImplementation("org.mockito.kotlin:mockito-kotlin:5.2.1")
-        testImplementation("com.navercorp.fixturemonkey:fixture-monkey-starter-kotlin:1.0.7")
+        testImplementation(libs.mockito.kotlin)
+        testImplementation(libs.fixture.monkey.starter.kotlin)
     }
 
     java.sourceCompatibility = JavaVersion.VERSION_17

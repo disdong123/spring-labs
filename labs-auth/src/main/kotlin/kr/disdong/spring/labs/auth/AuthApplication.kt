@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Import
 import org.springframework.scheduling.annotation.EnableAsync
 
 @SpringBootApplication
-@Import(CommonApplication::class, DomainApplication::class, JpaApplication::class, CacheApplication::class)
+@Import(CommonApplication::class, DomainApplication::class, CacheApplication::class, JpaApplication::class)
 @ConfigurationPropertiesScan
 @EnableAsync
 class AuthApplication

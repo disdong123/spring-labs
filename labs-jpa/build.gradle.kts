@@ -4,7 +4,7 @@ plugins {
 }
 
 dependencies {
-    api(project(":labs-domain"))
+    implementation(project(":labs-domain"))
     implementation(project(":labs-common"))
     api(libs.spring.boot.starter.data.jpa)
     api(libs.querydsl.jpa) {
