@@ -19,7 +19,9 @@ import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.mockito.kotlin.any
+import org.mockito.kotlin.never
 import org.mockito.kotlin.times
+import org.mockito.kotlin.verify
 import org.mockito.kotlin.whenever
 import org.springframework.beans.factory.annotation.Autowired
 
@@ -49,26 +51,65 @@ internal class KakaoServiceITest : AbstractSpringBootTest() {
             assertThrows(AuthorizationCodeAccessDeniedException::class.java) {
                 sut.login(OAuthCallbackResponse(code = Token(""), error = "access_denied"))
             }
+
+            verify(kakaoClient, never()).getTokenWithAuthCode(any())
         }
 
-        @Test
-        fun `유저가 없는 경우 회원가입을 위해 oauth 정보를 캐싱하고 키를 반환한다`() {
-            val response = sut.login(OAuthCallbackResponse(code = Token("")))
+        @DisplayName("유저가 없는 경우")
+        @Nested
+        inner class PreSignupCase {
+            @Test
+            fun `회원가입을 위해 oauth 정보를 캐싱하고 키를 반환한다`() {
+                // when
+                val response = sut.login(OAuthCallbackResponse(code = Token("")))
 
-            assertNotNull(response.signupPhase)
-            assertNull(response.loginPhase)
+                // then
+                verify(kakaoClient, times(1)).getTokenWithAuthCode(any())
+                assertNotNull(response.signupPhase)
+                assertNull(response.loginPhase)
+            }
+
+            @Test
+            fun `PreSignupEvent 이벤트를 발행한다`() {
+                // when
+                sut.login(OAuthCallbackResponse(code = Token("")))
+
+                // then
+                verify(preSignupCacheListener, times(1)).handle(any())
+            }
         }
 
-        @Test
-        fun `이미 유저가 있으면 토큰을 발급하고 로그인을 시킨다`() {
-            `유저 정보 저장`()
-            val response = sut.login(OAuthCallbackResponse(code = Token("")))
+        @DisplayName("유저가 있는 경우")
+        @Nested
+        inner class LoginCase {
+            @Test
+            fun `토큰을 발급하고 로그인을 시킨다`() {
+                // given
+                `유저 정보 저장`()
 
-            assertNull(response.signupPhase)
-            assertNotNull(response.loginPhase!!.accessToken)
-            assertNotNull(response.loginPhase!!.name)
-            assertNotNull(response.loginPhase!!.phone)
-            assertEquals(response.loginPhase!!.oauthType, OauthType.KAKAO)
+                // when
+                val response = sut.login(OAuthCallbackResponse(code = Token("")))
+
+                // then
+                verify(kakaoClient, times(1)).getTokenWithAuthCode(any())
+                assertNull(response.signupPhase)
+                assertNotNull(response.loginPhase!!.accessToken)
+                assertNotNull(response.loginPhase!!.name)
+                assertNotNull(response.loginPhase!!.phone)
+                assertEquals(response.loginPhase!!.oauthType, OauthType.KAKAO)
+            }
+
+            @Test
+            fun `LoginEvent 이벤트를 발행한다`() {
+                // given
+                `유저 정보 저장`()
+
+                // when
+                sut.login(OAuthCallbackResponse(code = Token("")))
+
+                // then
+                verify(loginLoggingListener, times(1)).handle(any())
+            }
         }
     }
 

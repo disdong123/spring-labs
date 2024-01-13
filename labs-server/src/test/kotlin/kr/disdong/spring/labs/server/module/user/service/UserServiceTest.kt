@@ -6,7 +6,7 @@ import kr.disdong.spring.labs.domain.module.user.model.OauthType
 import kr.disdong.spring.labs.domain.module.user.model.impl.PlainUserOauthImpl
 import kr.disdong.spring.labs.domain.module.user.repository.UserRepository
 import kr.disdong.spring.labs.server.fixture.user.UserFixture
-import kr.disdong.spring.labs.server.module.user.dto.UserPersonalInfoBody
+import kr.disdong.spring.labs.server.module.user.dto.SignupBody
 import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
@@ -31,7 +31,7 @@ internal class UserServiceTest {
 
     @Nested
     @DisplayName("pre-signup 단계 이후 유저 정보를 저장할 때")
-    inner class UpdateUserInfoTest {
+    inner class SignupTest {
         @Test
         fun `signupId 가 캐싱되어있지 않으면 예외가 발생한다`() {
             // given
@@ -39,7 +39,7 @@ internal class UserServiceTest {
 
             // when, then
             assertThrows(SignupIdNotFoundException::class.java) {
-                sut.updatePersonalInfo(UUID.randomUUID(), UserPersonalInfoBody("name", "phone", "address", "addressDetail"))
+                sut.signup(UUID.randomUUID(), SignupBody("name", "phone", "address", "addressDetail"))
             }
         }
 
@@ -50,7 +50,7 @@ internal class UserServiceTest {
             whenever(userRepository.save(any())).thenReturn(UserFixture.any())
 
             // when, then
-            sut.updatePersonalInfo(UUID.randomUUID(), UserPersonalInfoBody("name", "phone", "address", "addressDetail"))
+            sut.signup(UUID.randomUUID(), SignupBody("name", "phone", "address", "addressDetail"))
             verify(userRepository, times(1)).save(any())
         }
     }

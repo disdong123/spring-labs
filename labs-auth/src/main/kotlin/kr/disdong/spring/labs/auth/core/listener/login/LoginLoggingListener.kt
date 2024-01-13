@@ -13,7 +13,7 @@ class LoginLoggingListener {
 
     @EventListener
     @Async
-    fun handleEvent(event: LoginEvent) {
+    fun handle(event: LoginEvent) {
         logger.info("event: $event")
     }
 }

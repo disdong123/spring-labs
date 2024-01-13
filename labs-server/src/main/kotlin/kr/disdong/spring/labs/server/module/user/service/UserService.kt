@@ -5,7 +5,7 @@ import kr.disdong.spring.labs.auth.module.kakao.exception.SignupIdNotFoundExcept
 import kr.disdong.spring.labs.auth.module.kakao.exception.UserNotFoundException
 import kr.disdong.spring.labs.cache.module.user.PlainUserOauthCacheRepository
 import kr.disdong.spring.labs.domain.module.user.repository.UserRepository
-import kr.disdong.spring.labs.server.module.user.dto.UserPersonalInfoBody
+import kr.disdong.spring.labs.server.module.user.dto.SignupBody
 import org.springframework.context.ApplicationEventPublisher
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -23,7 +23,7 @@ class UserService(
             ?: throw UserNotFoundException(userId)
 
     @Transactional
-    fun updatePersonalInfo(signupId: UUID, request: UserPersonalInfoBody) {
+    fun signup(signupId: UUID, request: SignupBody) {
         val plainUserOauth = plainUserOauthCacheRepository.findByKey(signupId)
             ?: throw SignupIdNotFoundException(signupId)
 

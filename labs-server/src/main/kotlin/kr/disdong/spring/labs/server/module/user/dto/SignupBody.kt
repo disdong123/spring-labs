@@ -4,7 +4,7 @@ import kr.disdong.spring.labs.domain.module.user.model.Address
 import kr.disdong.spring.labs.domain.module.user.model.impl.PlainUserImpl
 import kr.disdong.spring.labs.domain.module.user.model.impl.PlainUserOauthImpl
 
-data class UserPersonalInfoBody(
+data class SignupBody(
     val name: String,
     val phone: String,
     val address: String,

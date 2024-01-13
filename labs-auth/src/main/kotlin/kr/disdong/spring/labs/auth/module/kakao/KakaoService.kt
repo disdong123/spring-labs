@@ -9,7 +9,6 @@ import kr.disdong.spring.labs.auth.module.kakao.dto.OAuthCallbackResponse
 import kr.disdong.spring.labs.auth.module.kakao.dto.TokenResponse
 import kr.disdong.spring.labs.auth.module.kakao.exception.UserNotFoundException
 import kr.disdong.spring.labs.auth.module.kakao.extension.toLoginResponse
-import kr.disdong.spring.labs.cache.module.user.PlainUserOauthCacheRepository
 import kr.disdong.spring.labs.common.generator.UuidGenerator
 import kr.disdong.spring.labs.common.logger.logger
 import kr.disdong.spring.labs.common.time.Millis
@@ -25,7 +24,6 @@ import org.springframework.transaction.annotation.Transactional
 class KakaoService(
     private val kakaoClient: KakaoClient,
     private val userRepository: UserRepository,
-    private val plainUserOauthCacheRepository: PlainUserOauthCacheRepository,
     private val tokenManager: TokenManager,
     private val applicationEventPublisher: ApplicationEventPublisher,
 ) {
