@@ -19,15 +19,8 @@ import org.springframework.web.client.RestTemplate
 class KakaoClient(
     private val kakaoOauthBaseUrlProperties: KakaoOauthBaseUrlProperties,
     private val kakaoOauthProperties: KakaoOauthProperties,
+    private val restTemplate: RestTemplate,
 ) {
-
-    // // TODO.
-    // //  https://developers.kakao.com/docs/latest/ko/kakaologin/trouble-shooting
-    // //  예외처리 필요.
-    // private val kauthUrl = "https://kauth.kakao.com/oauth"
-    // private val kapiUrl = "https://kapi.kakao.com/v1"
-
-    private val restTemplate = RestTemplate()
 
     fun getLoginUrl(): String {
         return "${kakaoOauthBaseUrlProperties.kauth}/authorize?client_id=${kakaoOauthProperties.clientId}&redirect_uri=${kakaoOauthProperties.loginRedirectUri}&response_type=code&scope=openid"
@@ -44,6 +37,9 @@ class KakaoClient(
     fun getTokenWithAuthCode(response: OAuthCallbackResponse): TokenResponse {
         val request = makeGetTokenRequest(response)
 
+        // TODO.
+        // https://developers.kakao.com/docs/latest/ko/kakaologin/trouble-shooting
+        // 예외처리 필요.
         return restTemplate
             .exchange("${kakaoOauthBaseUrlProperties.kauth}/token", HttpMethod.POST, request, TokenResponse::class.java)
             .body!!

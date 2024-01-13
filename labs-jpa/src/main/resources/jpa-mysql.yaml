@@ -5,14 +5,24 @@ spring:
     username: root
     password:
   jpa:
+    show-sql: true
     open-in-view: false
     database: mysql
     database-platform: org.hibernate.dialect.MySQLDialect
     generate-ddl: true
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+        # https://stackoverflow.com/questions/75519276/spring-boot-3-hibernate-6-migration-timezone-mapping-issues
+        # https://docs.jboss.org/hibernate/orm/6.2/migration-guide/migration-guide.html#ddl-timezones
+        timezone:
+          default_storage: NORMALIZE
+        jdbc:
+          time_zone: Asia/Seoul
 logging:
   level:
-    org.springframework.jdbc.datasource: DEBUG
-    com.zaxxer.hikari.HikariConfig: DEBUG
-    org.hibernate.type: debug
+#    org.springframework.jdbc.datasource: DEBUG
+#    com.zaxxer.hikari.HikariConfig: DEBUG
+    org.hibernate.orm.jdbc.bind: trace

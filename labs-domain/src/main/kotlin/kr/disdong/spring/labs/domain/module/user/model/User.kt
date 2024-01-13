@@ -9,7 +9,6 @@ interface PlainUser : UserData {
 interface User : UserData {
     val userOauth: UserOauth
 
-    fun updateName(name: String)
     fun setAccessToken(accessToken: Token)
     fun setRefreshToken(accessToken: Token)
     fun setTokens(accessToken: Token, refreshToken: Token)
@@ -18,7 +17,7 @@ interface User : UserData {
 
 interface UserData {
     val id: Long
-    var name: String
+    val name: String
     val phone: String
     val address: Address
 }

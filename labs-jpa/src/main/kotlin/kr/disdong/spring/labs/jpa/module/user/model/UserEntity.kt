@@ -24,7 +24,7 @@ class UserEntity(
         unique = false,
         length = 100,
     )
-    var name: String,
+    val name: String,
 
     @Column(
         nullable = false,
