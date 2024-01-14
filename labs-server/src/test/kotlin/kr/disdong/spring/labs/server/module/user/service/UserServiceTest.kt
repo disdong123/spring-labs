@@ -4,6 +4,7 @@ import kr.disdong.spring.labs.auth.module.kakao.exception.SignupIdNotFoundExcept
 import kr.disdong.spring.labs.cache.module.user.PlainUserOauthCacheRepository
 import kr.disdong.spring.labs.domain.module.user.model.OauthType
 import kr.disdong.spring.labs.domain.module.user.model.impl.PlainUserOauthImpl
+import kr.disdong.spring.labs.domain.module.user.repository.QUserRepository
 import kr.disdong.spring.labs.domain.module.user.repository.UserRepository
 import kr.disdong.spring.labs.server.fixture.user.UserFixture
 import kr.disdong.spring.labs.server.module.user.dto.SignupBody
@@ -22,10 +23,12 @@ import java.util.UUID
 internal class UserServiceTest {
     private val userRepository = mock<UserRepository>()
     private val plainUserOauthCacheRepository = mock<PlainUserOauthCacheRepository>()
+    private val qUserRepository = mock<QUserRepository>()
     private val applicationEventPublisher = mock<ApplicationEventPublisher>()
     private val sut = UserService(
         userRepository = userRepository,
         plainUserOauthCacheRepository = plainUserOauthCacheRepository,
+        qUserRepository = qUserRepository,
         applicationEventPublisher = applicationEventPublisher,
     )
 

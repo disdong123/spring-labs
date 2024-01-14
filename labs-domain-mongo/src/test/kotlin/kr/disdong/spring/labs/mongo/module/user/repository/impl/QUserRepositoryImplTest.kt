@@ -4,6 +4,7 @@ import kr.disdong.spring.labs.domain.module.user.model.OauthType
 import kr.disdong.spring.labs.mongo.module.user.model.QUserEntity
 import kr.disdong.spring.labs.mongo.module.user.repository.QUserMongoRepository
 import org.junit.jupiter.api.Assertions.assertNotNull
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
@@ -17,6 +18,11 @@ internal class QUserRepositoryImplTest {
 
     @Autowired
     private lateinit var qUserMongoRepository: QUserMongoRepository
+
+    @BeforeEach
+    fun setup() {
+        qUserMongoRepository.deleteAll()
+    }
 
     @Test
     fun `mongodb 호출 테스트`() {

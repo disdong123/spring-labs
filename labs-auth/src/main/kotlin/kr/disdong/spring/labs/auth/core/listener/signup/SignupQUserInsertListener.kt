@@ -7,11 +7,11 @@ import org.springframework.context.event.EventListener
 import org.springframework.stereotype.Component
 
 @Component
-class SignupQueryInsertListener(
+class SignupQUserInsertListener(
     private val qUserRepository: QUserRepository,
 ) {
 
-    private val logger = logger<SignupQueryInsertListener>()
+    private val logger = logger<SignupQUserInsertListener>()
 
     @EventListener
     fun handle(event: SignupEvent) {

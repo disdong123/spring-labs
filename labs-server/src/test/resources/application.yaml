@@ -11,6 +11,7 @@ spring:
       - auth.yaml
       - common.yaml
       - cache.yaml
+      - mongo.yaml
 
 springdoc:
   swagger-ui:

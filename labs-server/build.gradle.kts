@@ -1,6 +1,7 @@
 dependencies {
     implementation(project(":labs-domain"))
     implementation(project(":labs-domain-jpa"))
+    implementation(project(":labs-domain-mongo"))
     implementation(project(":labs-common"))
     implementation(project(":labs-auth"))
     implementation(project(":labs-cache"))
@@ -9,7 +10,7 @@ dependencies {
 
     testImplementation(libs.wiremock)
     testImplementation(libs.h2.database)
-    testImplementation(libs.embedded.redis)
+    testImplementation("de.flapdoodle.embed:de.flapdoodle.embed.mongo.spring30x:4.11.0")
 }
 
 tasks.getByName("bootJar") {

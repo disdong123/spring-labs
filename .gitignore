@@ -42,3 +42,4 @@ labs-common/src/main/resources/common.yaml
 
 **/.jqwik-database
 infra/mysql/data/**
+infra/mongo/data/**

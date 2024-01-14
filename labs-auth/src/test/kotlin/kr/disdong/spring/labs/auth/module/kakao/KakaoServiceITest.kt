@@ -67,15 +67,7 @@ internal class KakaoServiceITest : AbstractSpringBootTest() {
                 verify(kakaoClient, times(1)).getTokenWithAuthCode(any())
                 assertNotNull(response.signupPhase)
                 assertNull(response.loginPhase)
-            }
-
-            @Test
-            fun `PreSignupEvent 이벤트를 발행한다`() {
-                // when
-                sut.login(OAuthCallbackResponse(code = Token("")))
-
-                // then
-                verify(preSignupCacheListener, times(1)).handle(any())
+                verify(plainUserOauthCacheRepository, times(1)).save(any(), any())
             }
         }
 
@@ -97,18 +89,6 @@ internal class KakaoServiceITest : AbstractSpringBootTest() {
                 assertNotNull(response.loginPhase!!.name)
                 assertNotNull(response.loginPhase!!.phone)
                 assertEquals(response.loginPhase!!.oauthType, OauthType.KAKAO)
-            }
-
-            @Test
-            fun `LoginEvent 이벤트를 발행한다`() {
-                // given
-                `유저 정보 저장`()
-
-                // when
-                sut.login(OAuthCallbackResponse(code = Token("")))
-
-                // then
-                verify(loginLoggingListener, times(1)).handle(any())
             }
         }
     }

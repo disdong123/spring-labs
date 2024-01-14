@@ -7,5 +7,4 @@ dependencies {
     implementation(libs.gson)
 
     testImplementation(libs.h2.database)
-    testImplementation(libs.embedded.redis)
 }

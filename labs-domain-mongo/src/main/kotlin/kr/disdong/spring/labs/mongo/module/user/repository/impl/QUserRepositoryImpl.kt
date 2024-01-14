@@ -19,4 +19,8 @@ class QUserRepositoryImpl(
     override fun save(user: PlainQUser): QUser {
         return qUserMongoRepository.save(QUserEntity.of(user)).toQUser()
     }
+
+    override fun deleteAll() {
+        return qUserMongoRepository.deleteAll()
+    }
 }

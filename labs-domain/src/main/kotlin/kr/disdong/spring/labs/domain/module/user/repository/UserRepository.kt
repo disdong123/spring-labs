@@ -22,4 +22,5 @@ interface QUserRepository {
     fun findByUserId(userId: Long): QUser?
 
     fun save(user: PlainQUser): QUser
+    fun deleteAll()
 }
