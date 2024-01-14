@@ -30,10 +30,7 @@ class UserService(
         val user = userRepository.save(request.toPlainUser(plainUserOauth))
 
         applicationEventPublisher.publishEvent(
-            SignupEvent(
-                name = user.name,
-                phone = user.phone,
-            )
+            SignupEvent.of(user)
         )
     }
 }

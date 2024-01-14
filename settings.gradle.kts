@@ -4,7 +4,8 @@ include(
     "labs-auth",
     "labs-cache",
     "labs-domain",
-    "labs-jpa",
+    "labs-domain-jpa",
+    "labs-domain-mongo",
     "labs-common",
     "labs-server",
     "internal:notification-api"

@@ -1,6 +1,6 @@
 dependencies {
     implementation(project(":labs-domain"))
-    implementation(project(":labs-jpa"))
+    implementation(project(":labs-domain-jpa"))
     implementation(project(":labs-common"))
     implementation(project(":labs-auth"))
     implementation(project(":labs-cache"))

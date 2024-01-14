@@ -2,7 +2,9 @@ package kr.disdong.spring.labs.domain.module.user.repository
 
 import kr.disdong.spring.labs.common.token.Token
 import kr.disdong.spring.labs.domain.module.user.model.OauthType
+import kr.disdong.spring.labs.domain.module.user.model.PlainQUser
 import kr.disdong.spring.labs.domain.module.user.model.PlainUser
+import kr.disdong.spring.labs.domain.module.user.model.QUser
 import kr.disdong.spring.labs.domain.module.user.model.User
 
 interface UserRepository {
@@ -14,4 +16,10 @@ interface UserRepository {
     fun findByAccessToken(accessToken: Token): User?
     fun save(user: PlainUser): User
     fun deleteAll()
+}
+
+interface QUserRepository {
+    fun findByUserId(userId: Long): QUser?
+
+    fun save(user: PlainQUser): QUser
 }

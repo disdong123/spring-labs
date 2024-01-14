@@ -1,7 +1,7 @@
 services:
   redis:
     container_name: spring_labs_redis
-    image: redis:alpine
+    image: redis:latest
     ports:
       - '6380:6379'
     networks:
@@ -18,6 +18,16 @@ services:
       MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
     volumes:
       - ./infra/mysql/data:/var/lib/mysql
+    networks:
+      - spring_labs
+
+  mongo:
+    container_name: spring_labs_mongo
+    image: mongo:latest
+    ports:
+      - '27018:27017'
+    volumes:
+      - ./infra/mongo/data:/data/db
     networks:
       - spring_labs
 
