@@ -51,6 +51,10 @@ subprojects {
 
     tasks.withType<Test> {
         useJUnitPlatform()
+        // 유닛 테스트만 돌리고 싶은 경우: ./gradlew test -Punit
+        if (project.hasProperty("unit")) {
+            exclude("**/*ITest.*")
+        }
     }
 
     tasks.getByName("bootJar") {
@@ -60,4 +64,11 @@ subprojects {
     tasks.getByName("jar") {
         enabled = true
     }
+
+    // task("totalTest")
+    //
+    // tasks.getByName("totalTest") {
+    //     println("unit + integration test start")
+    //     dependsOn(tasks.withType<Test>())
+    // }
 }

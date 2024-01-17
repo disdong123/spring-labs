@@ -4,7 +4,7 @@ import kr.disdong.spring.labs.auth.common.exception.InvalidAccessTokenException
 import kr.disdong.spring.labs.auth.module.kakao.AccessTokenVerifier
 import kr.disdong.spring.labs.auth.module.kakao.dto.AccessTokenClaims
 import kr.disdong.spring.labs.domain.module.user.repository.UserRepository
-import kr.disdong.spring.labs.server.common.AbstractSpringBootTest
+import kr.disdong.spring.labs.server.common.IntegrationTest
 import kr.disdong.spring.labs.server.fixture.user.UserFixture
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
@@ -22,7 +22,7 @@ import org.springframework.mock.web.MockHttpServletRequest
 import org.springframework.mock.web.MockHttpServletResponse
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping
 
-internal class AuthKakaoInterceptorTest : AbstractSpringBootTest() {
+internal class AuthKakaoInterceptorITest : IntegrationTest() {
 
     @Autowired
     private lateinit var mapping: RequestMappingHandlerMapping

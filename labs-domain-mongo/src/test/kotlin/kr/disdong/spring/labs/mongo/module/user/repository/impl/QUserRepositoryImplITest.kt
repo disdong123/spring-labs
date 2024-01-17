@@ -12,7 +12,7 @@ import org.springframework.test.context.ActiveProfiles
 
 @SpringBootTest
 @ActiveProfiles("test")
-internal class QUserRepositoryImplTest {
+internal class QUserRepositoryImplITest {
     @Autowired
     private lateinit var sut: QUserRepositoryImpl
 

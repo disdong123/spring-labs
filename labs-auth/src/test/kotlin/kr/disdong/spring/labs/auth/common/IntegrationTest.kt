@@ -1,7 +1,8 @@
-package kr.disdong.spring.labs.server.common
+package kr.disdong.spring.labs.auth.common
 
+import kr.disdong.spring.labs.auth.AuthApplication
+import kr.disdong.spring.labs.auth.module.kakao.KakaoClient
 import kr.disdong.spring.labs.cache.module.user.PlainUserOauthCacheRepository
-import kr.disdong.spring.labs.server.ServerApplication
 import org.junit.jupiter.api.BeforeEach
 import org.mockito.kotlin.any
 import org.mockito.kotlin.doNothing
@@ -12,10 +13,14 @@ import org.springframework.test.context.ActiveProfiles
 
 @SpringBootTest(
     webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
-    classes = [ServerApplication::class]
+    classes = [AuthApplication::class]
 )
 @ActiveProfiles("test")
-abstract class AbstractSpringBootTest {
+abstract class IntegrationTest {
+
+    @MockBean
+    protected lateinit var kakaoClient: KakaoClient
+
     @MockBean
     protected lateinit var plainUserOauthCacheRepository: PlainUserOauthCacheRepository
 

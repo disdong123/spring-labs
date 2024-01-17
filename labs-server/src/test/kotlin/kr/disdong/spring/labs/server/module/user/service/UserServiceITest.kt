@@ -5,7 +5,7 @@ import kr.disdong.spring.labs.domain.module.user.model.OauthType
 import kr.disdong.spring.labs.domain.module.user.model.impl.PlainUserOauthImpl
 import kr.disdong.spring.labs.domain.module.user.repository.QUserRepository
 import kr.disdong.spring.labs.domain.module.user.repository.UserRepository
-import kr.disdong.spring.labs.server.common.AbstractSpringBootTest
+import kr.disdong.spring.labs.server.common.IntegrationTest
 import kr.disdong.spring.labs.server.module.user.dto.SignupBody
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertThrows
@@ -18,7 +18,7 @@ import org.mockito.kotlin.whenever
 import org.springframework.beans.factory.annotation.Autowired
 import java.util.UUID
 
-internal class UserServiceITest : AbstractSpringBootTest() {
+internal class UserServiceITest : IntegrationTest() {
     @Autowired
     private lateinit var userRepository: UserRepository
 

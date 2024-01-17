@@ -1,6 +1,6 @@
 package kr.disdong.spring.labs.auth.module.kakao
 
-import kr.disdong.spring.labs.auth.common.AbstractSpringBootTest
+import kr.disdong.spring.labs.auth.common.IntegrationTest
 import kr.disdong.spring.labs.auth.common.exception.AuthorizationCodeAccessDeniedException
 import kr.disdong.spring.labs.auth.module.kakao.dto.OAuthCallbackResponse
 import kr.disdong.spring.labs.auth.module.kakao.dto.TokenResponse
@@ -25,7 +25,7 @@ import org.mockito.kotlin.verify
 import org.mockito.kotlin.whenever
 import org.springframework.beans.factory.annotation.Autowired
 
-internal class KakaoServiceITest : AbstractSpringBootTest() {
+internal class KakaoServiceITest : IntegrationTest() {
 
     @Autowired
     private lateinit var userRepository: UserRepository

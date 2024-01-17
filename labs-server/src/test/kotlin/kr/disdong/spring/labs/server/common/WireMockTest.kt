@@ -13,7 +13,7 @@ import org.springframework.test.web.reactive.server.WebTestClient
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-abstract class AbstractWireMockTest {
+abstract class WireMockTest {
     protected val kakaoServer = WireMockServer(9090)
 
     @LocalServerPort
