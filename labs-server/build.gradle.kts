@@ -10,7 +10,7 @@ dependencies {
 
     testImplementation(libs.wiremock)
     testImplementation(libs.h2.database)
-    testImplementation("de.flapdoodle.embed:de.flapdoodle.embed.mongo.spring30x:4.11.0")
+    testImplementation(libs.de.flapdoodle.embed.mongo.spring30x)
 }
 
 tasks.getByName("bootJar") {
