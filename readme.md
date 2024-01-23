@@ -15,3 +15,14 @@ flowchart TB
   JdbcRepository ---|Entity| Database
   SomeRepository -.-|Entity| Database
 ```
+
+### version catalog
+### mongodb
+### maxwell
+- https://maxwells-daemon.io/quickstart/
+- https://github.com/AlbertChanX/docker-mysql-maxwell-kafka
+- maxwell 연결 테스트
+  ```
+  docker-compose up --build
+  docker run -it --network spring_labs --rm zendesk/maxwell bin/maxwell --user=maxwell --password=maxwell --host=mysql --port=3306 --producer=stdout
+  ```
