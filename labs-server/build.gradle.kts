@@ -11,6 +11,7 @@ dependencies {
     testImplementation(libs.wiremock)
     testImplementation(libs.h2.database)
     testImplementation(libs.de.flapdoodle.embed.mongo.spring30x)
+    testImplementation("org.testcontainers:testcontainers:1.19.3")
 }
 
 tasks.getByName("bootJar") {

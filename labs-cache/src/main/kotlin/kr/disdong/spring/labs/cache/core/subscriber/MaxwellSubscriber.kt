@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component
 @Component
 class MaxwellSubscriber(
     private val objectMapper: ObjectMapper,
-): MessageListener {
+) : MessageListener {
     private val logger = logger<MaxwellSubscriber>()
 
     override fun onMessage(message: Message, pattern: ByteArray?) {

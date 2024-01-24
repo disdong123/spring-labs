@@ -7,4 +7,5 @@ dependencies {
     implementation(libs.gson)
 
     testImplementation(libs.h2.database)
+    testImplementation("org.testcontainers:testcontainers:1.19.3")
 }
