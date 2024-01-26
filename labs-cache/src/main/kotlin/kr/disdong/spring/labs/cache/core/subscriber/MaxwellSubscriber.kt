@@ -17,3 +17,13 @@ class MaxwellSubscriber(
         logger.info("pattern: ${String(pattern!!)}")
     }
 }
+
+data class MaxwellMessageBody(
+    val database: String,
+    val table: String,
+    val type: String,
+    val ts: Long,
+    val xid: Long,
+    val commit: Boolean,
+    val data: Any,
+)
