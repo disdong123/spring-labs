@@ -80,7 +80,7 @@ jobs:
         env:
           DISDONG_USERNAME: ${{ secrets.DISDONG_USERNAME }}
           DISDONG_TOKEN: ${{ secrets.DISDONG_TOKEN }}
-        run: ./gradlew clean build
+        run: ./gradlew clean build -Punit
   success-status-processor:
     if: ${{ always() && contains(join(needs.version-catalog-test.result, ','), 'success') }}
     needs: version-catalog-test
